@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>League tracker 🎯</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+    <style>
+        body {
+            background-color: #2C3333;
+        }
+    </style>
+    <script>
+        const tier_map = {
+            0: "IRON",
+            400: "BRONZE",
+            800: "SILVER",
+            1200: "GOLD",
+            1600: "PLATINUM",
+            2000: "DIAMOND",
+            2400: "MASTER",
+            2400: "GRANDMASTER",
+            2400: "CHALLENGER"
+        }
+
+        const rank_map = {
+            300: "I",
+            200: "II",
+            100: "III",
+            0: "IV"
+        }
+
+        const pointsToRank = (points) => {
+            const tier_points = points - points % 400;
+            const league_points = (points - tier_points) % 100;
+            const rank_points = points - tier_points - league_points;
+            return `${tier_map[tier_points]} ${rank_map[rank_points]} ${league_points} LP`;
+        }
+
+        (async () => {
+            const response = await fetch("https://2550-54-209-119-223.ngrok.io/tracker",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "a" },
+                    mode: "cors"
+                });
+            console.log(response)
+            const data = await response.json();
+            console.log(data);
+
+            const ctx = document.getElementById("myChart");
+            const len = Object.values(data)[0].length;
+            Chart.defaults.borderColor = "#828282";
+            Chart.defaults.color = "#fff";
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: Array.from({ length: len }, (_, i) => i - len + 1),
+                    datasets: [
+                        { label: "Leon", data: data.leo },
+                        { label: "Kuba", data: data.jak },
+                        { label: "Mateusz", data: data.mat },
+                        { label: "Oskar", data: data.osk },
+                        { label: "Dawid", data: data.daw }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            ticks: {
+                                stepSize: 50,
+                                callback: pointsToRank
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
