@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>League tracker 🎯</title>
 </head>
@@ -52,22 +55,25 @@
                     headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "a" },
                     mode: "cors"
                 });
-            console.log(response)
             const data = await response.json();
-            console.log(data);
+            const data_length = Object.values(data)[0].length;
 
             const ctx = document.getElementById("myChart");
-            const len = Object.values(data)[0].length;
+
             Chart.defaults.borderColor = "#828282";
             Chart.defaults.color = "#fff";
+            Chart.defaults.font.size = 18;
+            Chart.defaults.font.family = "Fira Sans";
+            Chart.defaults.datasets.line.borderWidth = 6;
+            Chart.defaults.datasets.line.tension = 0.2;
 
             new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: Array.from({ length: len }, (_, i) => i - len + 1),
+                    labels: Array.from({ length: data_length }, (_, i) => i - data_length + 1),
                     datasets: [
-                        { label: "Leon", data: data.leo },
-                        { label: "Kuba", data: data.jak },
+                        //{ label: "Leon", data: data.leo },
+                        //{ label: "Kuba", data: data.jak },
                         { label: "Mateusz", data: data.mat },
                         { label: "Oskar", data: data.osk },
                         { label: "Dawid", data: data.daw }
@@ -81,8 +87,10 @@
                                 stepSize: 50,
                                 callback: pointsToRank
                             }
+
+
                         }
-                    }
+                    },
                 }
             });
         })();
