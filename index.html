@@ -65,15 +65,15 @@
             Chart.defaults.font.size = 18;
             Chart.defaults.font.family = "Fira Sans";
             Chart.defaults.datasets.line.borderWidth = 6;
-            Chart.defaults.datasets.line.tension = 0.2;
+            Chart.defaults.datasets.line.tension = 0.4;
 
             new Chart(ctx, {
                 type: "line",
                 data: {
                     labels: Array.from({ length: data_length }, (_, i) => i - data_length + 1),
                     datasets: [
-                        //{ label: "Leon", data: data.leo },
-                        //{ label: "Kuba", data: data.jak },
+                        { label: "Leon", data: data.leo },
+                        { label: "Kuba", data: data.jak },
                         { label: "Mateusz", data: data.mat },
                         { label: "Oskar", data: data.osk },
                         { label: "Dawid", data: data.daw }
