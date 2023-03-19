@@ -65,7 +65,7 @@
             Chart.defaults.font.size = 18;
             Chart.defaults.font.family = "Fira Sans";
             Chart.defaults.datasets.line.borderWidth = 6;
-            Chart.defaults.datasets.line.tension = 0.4;
+            Chart.defaults.datasets.line.tension = 0.3;
 
             new Chart(ctx, {
                 type: "line",
@@ -87,9 +87,6 @@
                                 stepSize: 50,
                                 callback: pointsToRank
                             }
-                        },
-                        x: {
-                            min: -50
                         }
                     },
                 }
