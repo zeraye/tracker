@@ -36,9 +36,7 @@
             1200: "GOLD",
             1600: "PLATINUM",
             2000: "DIAMOND",
-            2400: "MASTER",
-            2400: "GRANDMASTER",
-            2400: "CHALLENGER"
+            2700: "MASTER"
         }
 
         const rank_map = {
@@ -49,6 +47,10 @@
         }
 
         const pointsToRank = (points) => {
+            if (points >= 2400 && points < 2700)
+                return ``
+            if (points >= 2700)
+                return `MASTER ${points - 2700} LP`
             const tier_points = points - points % 400;
             const league_points = (points - tier_points) % 100;
             const rank_points = points - tier_points - league_points;
